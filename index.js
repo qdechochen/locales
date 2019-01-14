@@ -76,8 +76,12 @@ module.exports = function (app, options) {
       return '';
     }
 
-    const locale = this.__getLocale();
-    const resource = resources[locale] || {};
+    let locale;
+    if (typeof key === 'object') {
+      locale = key.locale;
+      key = key.key;
+    }
+    const resource = (locale && resources[locale]) || resources[ this.__getLocale()] || {};
 
     let text = resource[key];
     if (text === undefined) {
